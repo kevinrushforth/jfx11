@@ -2695,6 +2695,15 @@ static bool isSiblingSubsequent(const Node& siblingA, const Node& siblingB)
     return false;
 }
 
+// VS 2017 has buggy support for compile-time inline constants, so they
+// are defined here as runtime constants
+#if PLATFORM(JAVA)
+constexpr PartialOrdering PartialOrdering::less(Type::Less);
+constexpr PartialOrdering PartialOrdering::equivalent(Type::Equivalent);
+constexpr PartialOrdering PartialOrdering::greater(Type::Greater);
+constexpr PartialOrdering PartialOrdering::unordered(Type::Unordered);
+#endif
+
 template<TreeType treeType> PartialOrdering treeOrder(const Node& a, const Node& b)
 {
     if (&a == &b)
